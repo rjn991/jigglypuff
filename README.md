@@ -32,6 +32,20 @@ brew install ffmpeg
 
 ---
 
+### ☁️ Cloud Hosting (AWS, Azure, GCE, etc.)
+
+Cloud providers are often flagged by YouTube, leading to the error `Sign in to confirm you're not a bot`.
+
+**The fix:**
+1.  On your local browser, install a "Get cookies.txt" extension.
+2.  Log in to YouTube and export your cookies as `cookies.txt`.
+3.  Upload `cookies.txt` to the root directory of this project on your cloud machine.
+4.  The bot will automatically detect and use it to bypass the bot detection.
+
+*Note: I have already added a fallback to the **Android client** in the code, which may resolve this without cookies on some providers.*
+
+---
+
 ## 🛠️ Installation
 
 1. Clone the repository:

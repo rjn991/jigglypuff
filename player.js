@@ -8,6 +8,7 @@ const {
 } = require('@discordjs/voice');
 const youtubedl = require('youtube-dl-exec');
 const https = require('https');
+const getYouTubeOptions = require('./yt-options');
 
 class MusicPlayer {
     constructor() {
@@ -104,14 +105,7 @@ class MusicPlayer {
             // Handle YouTube URLs differently with youtube-dl-exec
             if (song.url.includes('youtube.com') || song.url.includes('youtu.be')) {
                 console.log(`Using youtube-dl-exec to extract stream: ${song.url}`);
-                const output = await youtubedl(song.url, {
-                    dumpSingleJson: true,
-                    noWarnings: true,
-                    noCheckCertificate: true,
-                    preferFreeFormats: true,
-                    format: 'bestaudio',
-                    jsRuntime: 'node'
-                });
+                const output = await youtubedl(song.url, getYouTubeOptions());
                 streamUrl = output.url;
                 console.log('Stream URL extracted successfully');
             }

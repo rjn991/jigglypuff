@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js');
 const youtubedl = require('youtube-dl-exec');
 const musicPlayer = require('../player');
+const getYouTubeOptions = require('../yt-options');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -25,13 +26,10 @@ module.exports = {
             
             // Extract from URL (can be single video or playlist)
             if (query.startsWith('http')) {
-                const output = await youtubedl(query, {
-                    dumpSingleJson: true,
+                const output = await youtubedl(query, getYouTubeOptions({
                     flatPlaylist: true,
-                    noWarnings: true,
-                    jsRuntime: 'node',
                     playlistItems: '1:100'
-                });
+                }));
                 
                 if (output.entries) {
                     // It's a playlist
@@ -48,12 +46,9 @@ module.exports = {
                 }
             } else {
                 // Search for it
-                const output = await youtubedl(`ytsearch1:${query}`, {
-                    dumpSingleJson: true,
-                    flatPlaylist: true,
-                    noWarnings: true,
-                    jsRuntime: 'node'
-                });
+                const output = await youtubedl(`ytsearch1:${query}`, getYouTubeOptions({
+                    flatPlaylist: true
+                }));
                 
                 if (!output.entries || output.entries.length === 0) {
                     return interaction.editReply('❌ No results found.');
